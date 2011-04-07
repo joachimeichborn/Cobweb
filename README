@@ -2,6 +2,18 @@
 /\  _`\         /\ \                        /\ \       
 \ \ \/\_\    ___\ \ \____  __  __  __     __\ \ \____  
  \ \ \/_/_  / __`\ \ '__`\/\ \/\ \/\ \  /'__`\ \ '__`\ 
-  \ \ \L\ \/\ \L\ \ \ \L\ \ \ \_/ \_/ \/\  __/\ \ \L\ \
+  \ \ \_\ \/\ \_\ \ \ \_\ \ \ \_/ \_/ \/\  __/\ \ \_\ \
    \ \____/\ \____/\ \_,__/\ \___x___/'\ \____\\ \_,__/
     \/___/  \/___/  \/___/  \/__//__/   \/____/ \/___/ 
+
+
+Cobweb is licensed under the GNU General Public License version 3.
+
+Whoever uses Cobweb or a derivative of it has to cite our paper and link to our website (http://bioinformatics.charite.de/cobweb).
+
+On this website (http://bioinformatics.charite.de/cobweb) there is additional information about Cobweb like:
+ - Interactive examples showing how Cobweb can be used
+ - Details about the supported file formats
+ - Instructions how to implement the applet on a webpage
+ - Information how the "enhanced feedback" can be activated and a download-link for the neccessary JavaScript file
+ - An example implementation of the applet that can be downloaded and is ready out-of-the-box
