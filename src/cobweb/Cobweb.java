@@ -167,15 +167,16 @@ public class Cobweb extends PApplet {
 	/**
 	 * The color of the applets background
 	 */
-	private int backgroundColor = (255 << 24) | Integer.parseInt("FFFFFF", 16);;
+	private int backgroundColor = (255 << 24) | Integer.parseInt("FFFFFF", 16);
 
 	/**
 	 * The color that is used to draw the node names
 	 */
-	private int textColor = (255 << 24) | Integer.parseInt("000000", 16);;
+	private int textColor = (255 << 24) | Integer.parseInt("000000", 16);
 
 	// control elements to change the display style
 	GPanel displayPanel = null;
+
 	GCheckbox displayNamesBox = null;
 	GCheckbox displaySymbolsBox = null;
 	GCheckbox displayPicturesBox = null;
@@ -183,9 +184,9 @@ public class Cobweb extends PApplet {
 	GButton fixButton = null;
 	GWSlider edgeLengthSlider = null;
 	GButton smoothButton = null;
-
 	// control elements to perform graph functions
 	GPanel graphPanel = null;
+
 	GTextField nodeSearchTextfield = null;
 	GButton selectCommonNeighboursButton = null;
 	GButton selectNeighboursButton = null;
@@ -198,7 +199,6 @@ public class Cobweb extends PApplet {
 	GButton shuffleButton = null;
 	GButton relaxButton = null;
 	GButton fitButton = null;
-
 	/**
 	 * The font used to draw the node names
 	 */
@@ -249,6 +249,20 @@ public class Cobweb extends PApplet {
 			particleSys.deselectAllNodes();
 			selectNode(n);
 		}
+	}
+
+	/**
+	 * Select a node by its Id without deselecting previously selected nodes
+	 * 
+	 * @param id
+	 *            The id of the node that is to be selected
+	 */
+	public void addNodeToSelectionById (String id) {
+		for (int i = 0; i < particleSys.numberOfNodes(); ++i)
+			if (particleSys.getNode(i).getId().equals(id)) {
+				selectNode(particleSys.getNode(i));
+				break;
+			}
 	}
 
 	/**
@@ -1273,7 +1287,6 @@ public class Cobweb extends PApplet {
 					else
 						parser.parseNodes(particleSys, n.getPosition().getX(), n.getPosition().getY());
 
-					parser.parseNodes(particleSys, n.getPosition().getX(), n.getPosition().getY());
 					parser.parseEdges(particleSys, edgeLength);
 				} else if (networkType.equals("graphml")) {
 					GraphMLParser parser = new GraphMLParser(this, content);
@@ -1284,7 +1297,6 @@ public class Cobweb extends PApplet {
 					else
 						parser.parseNodes(particleSys, n.getPosition().getX(), n.getPosition().getY());
 
-					parser.parseNodes(particleSys, n.getPosition().getX(), n.getPosition().getY());
 					parser.parseEdges(particleSys, edgeLength);
 				} else
 					System.out.println("unknown network type: " + networkType);
@@ -1974,7 +1986,8 @@ public class Cobweb extends PApplet {
 			networkType = "graphml";
 		} else if (getParameter("networkSIF") != null) {
 			network = getParameter("networkSIF");
-			// newlines and tabs are not preserved in html PARAM-tags, so they have to be encoded by <br> and <tab>
+			// newlines and tabs are not preserved in html PARAM-tags, so they
+			// have to be encoded by <br> and <tab>
 			network = network.replace("<br>", "\n");
 			network = network.replace("<tab>", "\t");
 			networkType = "sif";
