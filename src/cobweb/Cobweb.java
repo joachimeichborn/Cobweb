@@ -58,7 +58,7 @@ import processing.core.PFont;
  * 
  * @author Joachim von Eichborn
  * @author http://bioinformatics.charite.de/cobweb
- * @version 1.1.0
+ * @version 1.1.1
  */
 @SuppressWarnings("serial")
 public class Cobweb extends PApplet {
@@ -1904,17 +1904,17 @@ public class Cobweb extends PApplet {
 			edgeLength = Float.valueOf(getParameter("edgeLength"));
 		else
 			edgeLength = 150;
-		
+
 		if (getParameter("scaleFactor") != null)
 			scaleFactor = Float.valueOf(getParameter("scaleFactor"));
 		else
 			scaleFactor = 1;
-		
+
 		if (getParameter("edgeStrength") != null)
 			edgeStrength = Float.valueOf(getParameter("edgeStrength"));
 		else
 			edgeStrength = 0.04f;
-				
+
 		if (getParameter("repulsionStrength") != null)
 			repulsionStrength = Float.valueOf(getParameter("repulsionStrength"));
 		else
@@ -1972,6 +1972,19 @@ public class Cobweb extends PApplet {
 				stringBuf.append(lines[i]);
 			network = stringBuf.toString();
 			networkType = "graphml";
+		} else if (getParameter("networkSIF") != null) {
+			network = getParameter("networkSIF");
+			// newlines and tabs are not preserved in html PARAM-tags, so they have to be encoded by <br> and <tab>
+			network = network.replace("<br>", "\n");
+			network = network.replace("<tab>", "\t");
+			networkType = "sif";
+		} else if (getParameter("fileSIF") != null) {
+			String lines[] = loadStrings(serverAddress + getParameter("fileSIF"));
+			StringBuffer stringBuf = new StringBuffer();
+			for (int i = 0; i < lines.length; i++)
+				stringBuf.append(lines[i] + "\n");
+			network = stringBuf.toString();
+			networkType = "sif";
 		}
 
 		if (networkType != null) {
@@ -1986,6 +1999,11 @@ public class Cobweb extends PApplet {
 				parser.parseParameters(particleSys, serverAddress);
 				parser.parseNodes(particleSys, width, height);
 				parser.parseEdges(particleSys, edgeLength);
+				params = parser.getParameters();
+			} else if (networkType.equals("sif")) {
+				SIFParser parser = new SIFParser(this, network);
+				parser.parseParameters(particleSys, serverAddress);
+				parser.parseNetwork(particleSys, width, height, edgeLength);
 				params = parser.getParameters();
 			} else
 				System.out.println("unknown network type: " + networkType);
