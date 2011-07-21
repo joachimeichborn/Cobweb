@@ -218,6 +218,60 @@ public class Cobweb extends PApplet {
 	}
 
 	/**
+	 * Add the specified network to the displayed network
+	 * 
+	 * @param network
+	 *            The network that is added
+	 */
+	public void addNetwork (String network) {
+		addNetwork(network, width / 2 - translateMouseX, height / 2 - translateMouseY);
+	}
+	
+	/**
+	 * Add the specified network to the displayed network
+	 * 
+	 * @param network
+	 *            The specified network
+	 * @param x
+	 *            The x coordinate where new nodes are added
+	 * @param y
+	 *            The y coordinate where new nodes are added
+	 */
+	public void addNetwork (String network, float x, float y) {
+		callJavascriptFunctionStatusMessage("adding network", true);
+
+		if (networkType != null) {
+			if (networkType.equals("xgmml")) {
+				XGMMLParser parser = new XGMMLParser(this, network);
+				parser.setParameters(params);
+
+				if (fixed)
+					parser.parseNodes(particleSys, x, y, true);
+				else
+					parser.parseNodes(particleSys, x, y);
+
+				parser.parseEdges(particleSys, edgeLength);
+			} else if (networkType.equals("graphml")) {
+				GraphMLParser parser = new GraphMLParser(this, network);
+				parser.setParameters(params);
+
+				if (fixed)
+					parser.parseNodes(particleSys, x, y, true);
+				else
+					parser.parseNodes(particleSys, x, y);
+
+				parser.parseEdges(particleSys, edgeLength);
+			} else
+				System.out.println("unknown network type: " + networkType);
+		} else
+			System.out.println("no network type defined");
+
+		System.out.println(network);
+
+		callJavascriptFunctionStatusMessage("added network");
+	}
+
+	/**
 	 * Add a new node with default values to the particle system
 	 */
 	public void addNodeByButton () {
@@ -1287,33 +1341,7 @@ public class Cobweb extends PApplet {
 				stringBuf.append(lines[i]);
 			String content = stringBuf.toString();
 
-			if (networkType != null) {
-				if (networkType.equals("xgmml")) {
-					XGMMLParser parser = new XGMMLParser(this, content);
-					parser.setParameters(params);
-
-					if (fixed)
-						parser.parseNodes(particleSys, n.getPosition().getX(), n.getPosition().getY(), true);
-					else
-						parser.parseNodes(particleSys, n.getPosition().getX(), n.getPosition().getY());
-
-					parser.parseEdges(particleSys, edgeLength);
-				} else if (networkType.equals("graphml")) {
-					GraphMLParser parser = new GraphMLParser(this, content);
-					parser.setParameters(params);
-
-					if (fixed)
-						parser.parseNodes(particleSys, n.getPosition().getX(), n.getPosition().getY(), true);
-					else
-						parser.parseNodes(particleSys, n.getPosition().getX(), n.getPosition().getY());
-
-					parser.parseEdges(particleSys, edgeLength);
-				} else
-					System.out.println("unknown network type: " + networkType);
-			} else
-				System.out.println("no network type defined");
-
-			System.out.println(content);
+			addNetwork(content, n.getPosition().getX(), n.getPosition().getY());
 
 			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
