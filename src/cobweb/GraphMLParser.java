@@ -46,7 +46,6 @@ import processing.core.PApplet;
  * 
  * @author Joachim von Eichborn
  * @author http://bioinformatics.charite.de/cobweb
- * @version 1.1.0
  */
 public class GraphMLParser {
 	/**

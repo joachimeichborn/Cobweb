@@ -28,7 +28,6 @@ import processing.core.PImage;
  * 
  * @author Joachim von Eichborn
  * @author http://bioinformatics.charite.de/cobweb
- * @version 1.1.0
  */
 public class Node {
 	/**
@@ -175,8 +174,11 @@ public class Node {
 		// if (this.description == null)
 		// this.description = this.name;
 		try {
-			if (pictureName != null)
+			if (pictureName != null) {
 				img = (new PApplet()).loadImage(picturePath + pictureName);
+				if (img.width == -1) // the case if bad image data was returned
+					img = null;
+			}
 		} catch (Exception e) {
 			img = null;
 		}

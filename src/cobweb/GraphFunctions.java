@@ -33,7 +33,6 @@ import particlesystem.ParticleSystem;
  * 
  * @author Joachim von Eichborn
  * @author http://bioinformatics.charite.de/cobweb
- * @version 1.1.0
  */
 public class GraphFunctions {
 
